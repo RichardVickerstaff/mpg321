@@ -5,23 +5,23 @@ class Mpg321
 
   def initialize
     @volume = 50
-    @mus, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
+    @music_input, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
     Thread.new { loop do _stderr.readline end }
     Thread.new { loop do _stdout.readline end }
     set_volume
   end
 
   def pause
-    @mus.puts "P"
+    @music_input.puts "P"
   end
 
   def stop
-    @mus.puts "S"
+    @music_input.puts "S"
   end
 
   def play song_list
     songs = song_list.respond_to?(:join) ? song_list.join(' ') : song_list
-    @mus.puts "L #{songs}"
+    @music_input.puts "L #{songs}"
   end
 
   def volume_up num
@@ -37,6 +37,6 @@ class Mpg321
   end
 
   private def set_volume
-    @mus.puts "G #{@volume}"
+    @music_input.puts "G #{@volume}"
   end
 end
