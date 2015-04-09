@@ -8,7 +8,7 @@ class Mpg321
     @music_input, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
     Thread.new { loop do _stderr.readline end }
     Thread.new { loop do _stdout.readline end }
-    set_volume
+    send_volume
   end
 
   def pause
@@ -24,19 +24,30 @@ class Mpg321
     @music_input.puts "L #{songs}"
   end
 
-  def volume_up num
-    @volume += num
+  def volume_up volume
+    @volume += volume
     @volume = [@volume, 100].min
-    set_volume
+    send_volume
   end
 
-  def volume_down num
-    @volume -= num
+  def volume_down volume
+    @volume -= volume
     @volume = [@volume, 0].max
-    set_volume
+    send_volume
   end
 
-  private def set_volume
+  def volume= volume
+    if volume < 0
+      @volume = 0
+    elsif volume > 100
+      @volume = 100
+    else
+      @volume = volume
+    end
+    send_volume
+  end
+
+  private def send_volume
     @music_input.puts "G #{@volume}"
   end
 end
