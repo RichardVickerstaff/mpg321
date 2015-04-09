@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'pry-byebug'
+require 'simplecov'
+SimpleCov.start
 
 
 Dir['./spec/support/*.rb'].map {|f| require f }

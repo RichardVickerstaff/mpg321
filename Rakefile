@@ -1,10 +1,10 @@
-require'rake_rack'
+require'rake_n_bake'
 
 @external_dependencies = %w[ruby mpg321]
 
 task :default => [
-  :"rake_rack:check_external_dependencies",
-  :"rake_rack:code_quality:all",
-  :"rake_rack:rspec",
-  :"rake_rack:ok",
+  :"bake:check_external_dependencies",
+  :"bake:code_quality:all",
+  :"bake:rspec",
+  :"bake:ok",
 ]

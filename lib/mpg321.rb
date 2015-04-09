@@ -5,7 +5,7 @@ class Mpg321
 
   def initialize
     @volume = 50
-    @mus, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R makey_sound")
+    @mus, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
     Thread.new { loop do _stderr.readline end }
     Thread.new { loop do _stdout.readline end }
     set_volume
@@ -15,25 +15,18 @@ class Mpg321
     @mus.puts "P"
   end
 
-  private def set_volume
-    @mus.puts "G #{@volume}"
+  def stop
+    @mus.puts "S"
   end
 
-  def play path
-    @mus.puts "L #{path}"
-  end
-
-  def next
-    @mus.puts "L #{@files.next.file_path}"
-  end
-
-  def previous
-    @mus.puts "L #{@files.previous.file_path}"
+  def play song_list
+    songs = song_list.respond_to?(:join) ? song_list.join(' ') : song_list
+    @mus.puts "L #{songs}"
   end
 
   def volume_up num
     @volume += num
-    @volume = [@volume, 50].min
+    @volume = [@volume, 100].min
     set_volume
   end
 
@@ -41,5 +34,9 @@ class Mpg321
     @volume -= num
     @volume = [@volume, 0].max
     set_volume
+  end
+
+  private def set_volume
+    @mus.puts "G #{@volume}"
   end
 end
