@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["m3akq@btinternet.com"]
   spec.description   = "A simple ruby wrapper around mpg321"
   spec.summary       = "Provides a ruby object to wrap the mpg321 'Remote control'"
-  spec.homepage      = "https://github.com/RichardVickerstaff/rake-n-bake"
+  spec.homepage      = "https://github.com/RichardVickerstaff/mpg321"
   spec.license       = "GNU GENERAL PUBLIC LICENSE"
   spec.files         = `git ls-files`.split($/)
   spec.require_paths = ["lib"]
