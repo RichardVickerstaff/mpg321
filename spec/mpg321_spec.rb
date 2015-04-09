@@ -46,13 +46,33 @@ describe Mpg321 do
   end
 
   describe '#volume' do
-    it 'sets the volume to 50' do
-      expect(subject.volume).to eq 50
-    end
-
     it 'returns the current volume' do
+      expect(subject.volume).to eq 50
       subject.volume_up 5
       expect(subject.volume).to eq 55
+    end
+  end
+
+  describe '#volume=' do
+    it 'sets the volume' do
+      expect(subject.volume).to eq 50
+      subject.volume = 11
+      expect(subject.volume).to eq 11
+    end
+
+    it 'has a minimum of 0' do
+      subject.volume = -1
+      expect(subject.volume).to eq 0
+    end
+
+    it 'has a maximum of 100' do
+      subject.volume = 101
+      expect(subject.volume).to eq 100
+    end
+
+    it 'sends a message to set the volume' do
+      expect(stdin).to receive(:puts).with "G 11"
+      subject.volume = 11
     end
   end
 
