@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+- 2.1.0
+- 2.0.0
+- 1.9.3
+- jruby-1.7.12
+- ruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+deploy:
+  provider: rubygems
+  api_key:
+    secure: RmGYn4yb1PPjZxdWxgwUWTENnRaqp/PXUMfieJoAE0Dw1JrwkjxI3qhy/I6p36KusLsrFxrh4UdATj78QsWdtZVLJ9tvjONOsrAUjIszBwRmOXDWRkH8eLGCCmIYfYMZaRYvlQhPR2t5CC6BwfHS6W1AU5YtU5SSpk0HT+SRzII=
+  gem: mpg321
+  on:
+    tags: true
+    repo: RichardVickerstaff/mpg321
+    all_branches: true
