@@ -19,9 +19,8 @@ class Mpg321
     @music_input.puts "S"
   end
 
-  def play song_list
-    songs = song_list.respond_to?(:join) ? song_list.join(' ') : song_list
-    @music_input.puts "L #{songs}"
+  def play song
+    @music_input.puts "L #{song}"
   end
 
   def volume_up volume

@@ -29,13 +29,6 @@ require 'mpg321'
 Mpg321.new.play('/some_path/song.mp3')
 ```
 
-Play mutiple mp3 files:
-
-```ruby
-require 'mpg321'
-
-Mpg321.new.play(['/some_path/song1.mp3', '/some_path/song2.mp3'])
-```
 Contributing
 ------------
   1. Make a fork

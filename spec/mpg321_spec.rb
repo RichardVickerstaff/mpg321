@@ -81,11 +81,6 @@ describe Mpg321 do
       expect(stdin).to receive(:puts).with "L /some_path/file_name"
       subject.play '/some_path/file_name'
     end
-
-    it 'can play a list of songs' do
-      expect(stdin).to receive(:puts).with "L /some_path/file_name http://example.com/song"
-      subject.play ['/some_path/file_name', 'http://example.com/song']
-    end
   end
 
   describe '#pause' do
