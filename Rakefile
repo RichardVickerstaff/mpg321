@@ -1,6 +1,6 @@
 require'rake_n_bake'
 
-@external_dependencies = %w[ruby mpg321]
+@external_dependencies = %w[ruby]
 
 task :default => [
   :"bake:check_external_dependencies",
