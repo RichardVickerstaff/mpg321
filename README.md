@@ -26,7 +26,18 @@ Here's how you can easily play an mp3:
 ```ruby
 require 'mpg321'
 
-Mpg321.new.play('/some_path/song.mp3')
+mog321 = Mpg321.new
+mpg321.play('/some_path/song.mp3') #=> to play a song from a file
+
+mpg321.play('http://example.com/a_hosted_song.mp3') #=> to play a song from the web
+```
+To play a list of songs:
+
+```ruby
+require 'mpg321'
+
+mog321 = Mpg321.new
+mpg321.play(['/some_path/song.mp3', '/another_path/another_song'])
 ```
 
 Volume controls:

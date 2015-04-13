@@ -5,9 +5,9 @@ class Mpg321
 
   def initialize
     @volume = 50
-    @music_input, _stdout, _stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
-    Thread.new { loop do _stderr.readline end }
-    Thread.new { loop do _stdout.readline end }
+    @music_input, @stdout, @stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
+    handle_stderr
+    handle_stdout
     send_volume
   end
 
@@ -19,8 +19,15 @@ class Mpg321
     @music_input.puts "S"
   end
 
-  def play song
-    @music_input.puts "L #{song}"
+  def play song_list
+    @song_list = song_list
+    if song_list.class == Array
+      @list = true
+      play_song @song_list.shift
+    else
+      @list = false
+      play_song song_list
+    end
   end
 
   def volume_up volume
@@ -48,7 +55,27 @@ class Mpg321
 
   private
 
+  def play_song song
+    @music_input.puts "L #{song}"
+  end
+
   def send_volume
     @music_input.puts "G #{@volume}"
+  end
+
+  def handle_stderr
+    Thread.new { loop do @stderr.readline end }
+  end
+
+  def handle_stdout
+    Thread.new do
+      loop do
+        line = @stdout.readline
+        #Not sure how to test this yet
+        if @list && line.match(/@P 3/)
+          play @song_list
+        end
+      end
+    end
   end
 end

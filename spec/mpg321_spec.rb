@@ -77,9 +77,18 @@ describe Mpg321 do
   end
 
   describe '#play' do
-    it 'sends a message to play a song' do
-      expect(stdin).to receive(:puts).with "L /some_path/file_name"
-      subject.play '/some_path/file_name'
+    context 'when there is only one song' do
+      it 'sends a message to play a song' do
+        expect(stdin).to receive(:puts).with "L /some_path/file_name"
+        subject.play '/some_path/file_name'
+      end
+    end
+
+    context 'when there moer than one song' do
+      it 'sends a message to play the first song' do
+        expect(stdin).to receive(:puts).with "L /some_path/file_name"
+        subject.play ['/some_path/file_name', '/some_other_song']
+      end
     end
   end
 
