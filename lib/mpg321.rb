@@ -1,4 +1,5 @@
 require 'open3'
+require 'timeout'
 
 class Mpg321
   attr_reader :volume
@@ -64,15 +65,26 @@ class Mpg321
   end
 
   def handle_stderr
-    Thread.new { loop do @stderr.readline end }
+    Thread.new do
+      loop do
+
+        #Not sure how to test this yet
+        begin
+          Timeout::timeout(1) { @stderr.readline }
+        rescue Timeout::Error
+          play @song_list if @list
+        end
+
+      end
+    end
   end
 
   def handle_stdout
     Thread.new do
       loop do
-        line = @stdout.readline
         #Not sure how to test this yet
-        if @list && line.match(/@P 3/)
+        @stout.readline
+        if @list && @line.match(/@P 3/)
           play @song_list
         end
       end
