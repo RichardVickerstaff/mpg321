@@ -46,7 +46,9 @@ class Mpg321
     send_volume
   end
 
-  private def send_volume
+  private
+
+  def send_volume
     @music_input.puts "G #{@volume}"
   end
 end
