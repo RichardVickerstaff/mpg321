@@ -29,6 +29,20 @@ require 'mpg321'
 Mpg321.new.play('/some_path/song.mp3')
 ```
 
+Volume controls:
+
+```ruby
+require 'mpg321'
+
+mog321 = Mpg321.new
+mpg321.volume #=> initialized to 50
+
+mpg321.volume = 10 #=> Set volume to a number between 0 and 100
+
+mpg321.volume_up(10)   #=> Increase volume by 10
+mpg321.volume_down(10) #=> Decrease volume by 10
+```
+
 Contributing
 ------------
   1. Make a fork
