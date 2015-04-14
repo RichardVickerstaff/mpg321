@@ -6,6 +6,7 @@ class Mpg321
 
   def initialize
     @volume = 50
+    @paused = false
     @music_input, @stdout, @stderr, _thread = Open3.popen3("mpg321 -R mpg321_ruby")
     handle_stderr
     handle_stdout
@@ -13,6 +14,7 @@ class Mpg321
   end
 
   def pause
+    @paused = !@paused
     @music_input.puts "P"
   end
 
@@ -72,7 +74,7 @@ class Mpg321
         begin
           Timeout::timeout(1) { @stderr.readline }
         rescue Timeout::Error
-          play @song_list if @list
+          play @song_list if @list && !@paused
         end
 
       end
