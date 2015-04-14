@@ -1,3 +1,5 @@
+== v0.3.0 (14 April 2015)
+
 * Play list works with url's as well as files
 * Play a list of songs
 * Play, pause and stop songs
