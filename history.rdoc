@@ -1,3 +1,5 @@
+== v0.3.1 (14 April 2015)
+
 * Fix bug - pause skips to next song when using a play list
 
 == v0.3.0 (14 April 2015)
