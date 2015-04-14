@@ -1,0 +1,5 @@
+* Play list works with url's as well as files
+* Play a list of songs
+* Play, pause and stop songs
+* Add volume controls
+* Can play an mp3
