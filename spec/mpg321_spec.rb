@@ -82,6 +82,18 @@ describe Mpg321 do
         expect(stdin).to receive(:puts).with "L /some_path/file_name"
         subject.play '/some_path/file_name'
       end
+
+      context '#when paused' do
+        before do
+          subject.pause
+        end
+
+        it 'unpauses' do
+          expect(subject.paused?).to be_truthy
+          subject.stop
+          expect(subject.paused?).to be_falsy
+        end
+      end
     end
 
     context 'when there moer than one song' do
@@ -97,12 +109,48 @@ describe Mpg321 do
       expect(stdin).to receive(:puts).with "P"
       subject.pause
     end
+
+    context '#when paused' do
+      before do
+        subject.pause
+      end
+
+      it 'unpauses' do
+        expect(subject.paused?).to be_truthy
+        subject.pause
+        expect(subject.paused?).to be_falsy
+      end
+    end
   end
 
   describe '#stop' do
     it 'sends a message to stop the song' do
       expect(stdin).to receive(:puts).with "S"
       subject.stop
+    end
+
+    context '#when paused' do
+      before do
+        subject.pause
+      end
+
+      it 'unpauses' do
+        expect(subject.paused?).to be_truthy
+        subject.stop
+        expect(subject.paused?).to be_falsy
+      end
+    end
+  end
+
+  describe '#paused?' do
+    it 'returns false if it is not paused' do
+      expect(subject.paused?).to be_falsy
+    end
+
+    it 'returns false if it is not paused' do
+      expect(subject.paused?).to be_falsy
+      subject.pause
+      expect(subject.paused?).to be_truthy
     end
   end
 

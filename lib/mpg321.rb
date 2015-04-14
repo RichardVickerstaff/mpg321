@@ -19,10 +19,16 @@ class Mpg321
   end
 
   def stop
+    @paused = !@paused
     @music_input.puts "S"
   end
 
+  def paused?
+    @paused
+  end
+
   def play song_list
+    @paused = !@paused
     @song_list = song_list
     if song_list.class == Array
       @list = true
