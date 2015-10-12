@@ -151,4 +151,35 @@ describe Mpg321::Client do
     end
   end
 
+  describe '#loaded?' do
+    it 'returns false if no file has been loaded for playback' do
+      expect(subject.loaded?).to be_falsy
+    end
+
+    it 'returns true if a file has been loaded for playback' do
+      expect(stdin).to receive(:puts).with "L /some_path/file_name"
+      subject.play '/some_path/file_name'
+      expect(subject.loaded?).to be_truthy
+    end
+  end
+
+  describe '#playing?' do
+    it 'returns false if no file has been loaded' do
+      expect(subject.playing?).to be_falsy
+    end
+
+    it 'returns true if a file has been loaded and playback is not paused' do
+      expect(stdin).to receive(:puts).with "L /some_path/file_name"
+      subject.play '/some_path/file_name'
+      expect(subject.playing?).to be_truthy
+    end
+
+    it 'returns false if a file has been loaded but playback is paused' do
+      expect(stdin).to receive(:puts).with "L /some_path/file_name"
+      subject.play '/some_path/file_name'
+      subject.pause
+      expect(subject.playing?).to be_falsy
+    end
+  end
+
 end
