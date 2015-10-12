@@ -60,6 +60,12 @@ describe Mpg321::Client do
       expect(subject.volume).to eq 11
     end
 
+    it 'casts float arguments to integer' do
+      expect(subject.volume).to eq 50
+      subject.volume = 47.11
+      expect(subject.volume).to eq 47
+    end
+
     it 'has a minimum of 0' do
       subject.volume = -1
       expect(subject.volume).to eq 0
