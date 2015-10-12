@@ -1,5 +1,6 @@
 require 'open3'
 require 'timeout'
+require 'mpg321/version'
 
 class Mpg321
   attr_reader :volume
