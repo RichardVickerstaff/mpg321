@@ -1,3 +1,5 @@
+require 'mpg321'
+
 require 'bundler/setup'
 require 'simplecov'
 SimpleCov.start
