@@ -18,6 +18,13 @@ class FakeMpg321
     cmd
   end
 
+  def finish_playback
+    @stdoe.rewind
+    @stdoe.flush
+    @stdoe.puts '@P 3'
+    @stdoe.rewind
+  end
+
   private
 
   class FakeWaitThread

@@ -5,6 +5,7 @@ module Mpg321
 
     extend Forwardable
     def_delegator :@process, :send_command
+    def_delegator :@process, :on
 
     def initialize
       @process = ProcessWrapper.new
