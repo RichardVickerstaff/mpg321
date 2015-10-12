@@ -31,14 +31,6 @@ mpg321.play('/some_path/song.mp3') #=> to play a song from a file
 
 mpg321.play('http://example.com/a_hosted_song.mp3') #=> to play a song from the web
 ```
-To play a list of songs:
-
-```ruby
-require 'mpg321'
-
-mog321 = Mpg321.new
-mpg321.play(['/some_path/song.mp3', '/another_path/another_song'])
-```
 
 Volume controls:
 
@@ -61,7 +53,7 @@ mog321 = Mpg321.new
 
 mpg321.pause #=> Pause / unpause song
 
-mpg321.stop  #=> Stop playing song / song list
+mpg321.stop  #=> Stop playing song
 ```
 
 Contributing

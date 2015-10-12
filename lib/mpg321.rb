@@ -28,16 +28,9 @@ class Mpg321
     @paused
   end
 
-  def play song_list
+  def play song
     @paused = !@paused
-    @song_list = song_list
-    if song_list.class == Array
-      @list = true
-      play_song @song_list.shift
-    else
-      @list = false
-      play_song song_list
-    end
+    play_song song
   end
 
   def volume_up volume
@@ -81,7 +74,6 @@ class Mpg321
         begin
           Timeout::timeout(1) { @stderr.readline }
         rescue Timeout::Error
-          play @song_list if @list && !@paused
         end
 
       end
@@ -93,9 +85,6 @@ class Mpg321
       loop do
         #Not sure how to test this yet
         @stout.readline
-        if @list && @line.match(/@P 3/)
-          play @song_list
-        end
       end
     end
   end
