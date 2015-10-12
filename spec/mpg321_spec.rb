@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'mpg321'
 
-describe Mpg321 do
+describe Mpg321::Client do
 
   let(:thread) { double :thread }
   let(:stderr) { double :stderr }
