@@ -4,12 +4,11 @@ require 'mpg321'
 describe Mpg321::Client do
 
   let(:thread) { double :thread }
-  let(:stderr) { double :stderr }
   let(:stdout) { double :stdout }
   let(:stdin)  { double :stdin  }
 
   before do
-    allow(Open3).to receive(:popen3).and_return([stdin, stdout, stderr, thread])
+    allow(Open3).to receive(:popen2e).and_return([stdin, stdout, thread])
     allow(stdin).to receive(:puts)
   end
 

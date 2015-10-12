@@ -4,18 +4,18 @@ module Mpg321
       def play song
         @loaded = true
         @paused = false
-        @music_input.puts "L #{song}"
+        send_command 'L', song
       end
 
       def pause
         @paused = !@paused
-        @music_input.puts 'P'
+        send_command 'P'
       end
 
       def stop
         @loaded = false
         @paused = false
-        @music_input.puts 'S'
+        send_command 'S'
       end
 
       def paused?

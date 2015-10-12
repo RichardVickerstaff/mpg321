@@ -7,7 +7,7 @@ module Mpg321
 
       def volume= volume
         @volume = [0, volume.to_i, 100].sort[1]
-        @music_input.puts "G #{@volume}"
+        send_command 'G', @volume
       end
 
       def volume_up inc
