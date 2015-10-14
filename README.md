@@ -25,7 +25,7 @@ Here's how you can easily play an mp3:
 
 ```ruby
 require 'mpg321'
-mog321 = Mpg321::Client.new
+mpg321 = Mpg321::Client.new
 
 mpg321.play('/some_path/song.mp3') #=> to play a song from a file
 
@@ -35,9 +35,6 @@ mpg321.play('http://example.com/a_hosted_song.mp3') #=> to play a song from the 
 Volume controls:
 
 ```ruby
-require 'mpg321'
-mog321 = Mpg321::Client.new
-
 mpg321.volume #=> initialized to 50
 
 mpg321.volume = 10 #=> Set volume to a number between 0 and 100
@@ -45,15 +42,30 @@ mpg321.volume = 10 #=> Set volume to a number between 0 and 100
 mpg321.volume_up(10)   #=> Increase volume by 10
 mpg321.volume_down(10) #=> Decrease volume by 10
 ```
+
 Other controls:
 
 ```ruby
-require 'mpg321'
-mog321 = Mpg321::Client.new
-
 mpg321.pause #=> Pause / unpause song
 
 mpg321.stop  #=> Stop playing song
+```
+
+Events:
+
+```ruby
+mpg321.on(:playback_finished) { } # Called when song ends.
+
+mpg321.on(:file_not_found) { }    # Called when song could not be found.
+
+mpg321.on(:error) { }             # Called in error case. Do not use object
+                                  # afterwards.
+```
+
+Stop the mpg321 process:
+
+```ruby
+mpg321.quit
 ```
 
 Contributing
