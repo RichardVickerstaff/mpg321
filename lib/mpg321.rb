@@ -1,5 +1,6 @@
 require 'mpg321/control/playback'
 require 'mpg321/control/volume'
 require 'mpg321/client'
+require 'mpg321/playlist'
 require 'mpg321/process_wrapper'
 require 'mpg321/version'
