@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Mpg321::ProcessWrapper do
   include_context 'fake_mpg321'
 
+  let(:fake_read_thread) { subject.instance_variable_get(:@read_thr) }
+
   describe 'quit' do
     it 'sends a quit message' do
       subject.quit
@@ -11,7 +13,7 @@ describe Mpg321::ProcessWrapper do
 
     it 'waits for completion of the reader thread' do
       # We expect the main thread to wait for the reader threads termination.
-      expect(subject.fake_read_thread).to receive :join
+      expect(fake_read_thread).to receive :join
       subject.quit
     end
 
@@ -35,7 +37,7 @@ describe Mpg321::ProcessWrapper do
         expect(callback).to receive :call
 
         fake_mpg321.send_mpg321_output mpg321_error_msg
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
 
       it 'respawns the dead mpg321 process' do
@@ -43,7 +45,7 @@ describe Mpg321::ProcessWrapper do
         expect(subject).to receive(:spawn_mpg321).and_return(fake_mpg321)
 
         fake_mpg321.send_mpg321_output mpg321_error_msg
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
     end
 
@@ -56,7 +58,7 @@ describe Mpg321::ProcessWrapper do
         expect(callback).to receive(:call).with(mpg321_error_msg)
 
         fake_mpg321.send_mpg321_output mpg321_error_msg
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
     end
 
@@ -69,7 +71,7 @@ describe Mpg321::ProcessWrapper do
         expect(callback).to receive(:call).with(mpg321_error_msg)
 
         fake_mpg321.send_mpg321_output mpg321_error_msg
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
 
       # TODO: ProcessWrapper should probably remember that mpg321 is dead
@@ -84,7 +86,7 @@ describe Mpg321::ProcessWrapper do
       # in an exception in the reader thread. We simulate this
       # here by closing the StringIO.
       fake_mpg321.stdoe.close
-      expect { subject.fake_read_thread.run_once }.to raise_error IOError
+      expect { fake_read_thread.run_once }.to raise_error IOError
     end
   end
 
@@ -96,7 +98,7 @@ describe Mpg321::ProcessWrapper do
         expect(callback).to receive :call
 
         fake_mpg321.finish_playback
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
     end
 
@@ -111,7 +113,7 @@ describe Mpg321::ProcessWrapper do
         expect(callback).to receive(:call).with(update_data)
 
         fake_mpg321.send_status_update update_data
-        subject.fake_read_thread.run_once
+        fake_read_thread.run_once
       end
     end
   end

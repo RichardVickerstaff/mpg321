@@ -1,5 +1,32 @@
 require 'stringio'
 
+class FakeReadThread
+  def initialize(ctx, &block)
+    @ctx    = ctx
+    @action = block
+  end
+
+  def run_once
+    @ctx.instance_eval &@action
+  end
+
+  def join
+    self
+  end
+end
+
+class FakeWaitThread
+  FakeExitStatus = Struct.new(:exitstatus)
+
+  def join
+    self
+  end
+
+  def value
+    FakeExitStatus.new(0)
+  end
+end
+
 class FakeMpg321
   attr_reader :stdin, :stdoe, :wait_thr
 
@@ -33,18 +60,5 @@ class FakeMpg321
     @stdoe.flush
     @stdoe.puts line
     @stdoe.rewind
-  end
-
-  private
-
-  class FakeWaitThread
-    FakeExitStatus = Struct.new(:exitstatus)
-
-    def join
-    end
-
-    def value
-      FakeExitStatus.new(0)
-    end
   end
 end
