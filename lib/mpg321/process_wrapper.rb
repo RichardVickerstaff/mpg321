@@ -42,7 +42,14 @@ module Mpg321
     def read_stdoe_line
       line = @stdoe.readline
       case line[0..1]
-      # TODO: handle @F & co.
+      when '@F'
+        parts = line.split(' ')
+        emit :status_update, {
+          current_frame:    parts[1].to_i,
+          frames_remaining: parts[2].to_i,
+          current_time:     parts[3].to_f,
+          time_remaining:   parts[4].to_f
+        }
       when '@P'
         # mpg321 sends '@P 3' when the song has finished playing.
         if line[3] == '3'

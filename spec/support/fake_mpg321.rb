@@ -20,14 +20,22 @@ class FakeMpg321
     cmd
   end
 
+  def send_status_update data
+    send_mpg321_output "@F #{data[:current_frame]} #{data[:frames_remaining]} #{data[:current_time]} #{data[:time_remaining]}"
+  end
+
   def finish_playback
-    @stdoe.rewind
-    @stdoe.flush
-    @stdoe.puts '@P 3'
-    @stdoe.rewind
+    send_mpg321_output '@P 3'
   end
 
   private
+
+  def send_mpg321_output(line)
+    @stdoe.rewind
+    @stdoe.flush
+    @stdoe.puts line
+    @stdoe.rewind
+  end
 
   class FakeWaitThread
     FakeExitStatus = Struct.new(:exitstatus)

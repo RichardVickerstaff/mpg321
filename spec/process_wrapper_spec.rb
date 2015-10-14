@@ -46,5 +46,20 @@ describe Mpg321::ProcessWrapper do
         subject.fake_read_thread.run_once
       end
     end
+
+    context 'when frame decoding status update is received' do
+      let(:update_data) do
+        { current_frame: 1, frames_remaining: 10, current_time: 1.00, time_remaining: 10.00 }
+      end
+
+      it 'notifies interested observers' do
+        callback = Proc.new {}
+        subject.on :status_update, &callback
+        expect(callback).to receive(:call).with(update_data)
+
+        fake_mpg321.send_status_update update_data
+        subject.fake_read_thread.run_once
+      end
+    end
   end
 end
