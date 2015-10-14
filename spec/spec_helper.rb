@@ -1,8 +1,8 @@
-require 'mpg321'
-
-require 'bundler/setup'
 require 'simplecov'
+SimpleCov.add_filter '/spec/'
 SimpleCov.start
+
+require 'mpg321'
 
 Dir['./spec/support/*.rb'].each { |f| require f }
 

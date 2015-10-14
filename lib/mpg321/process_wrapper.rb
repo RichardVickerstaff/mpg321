@@ -37,6 +37,7 @@ module Mpg321
       @callbacks[event].each { |cb| cb.call *args }
     end
 
+    # :nocov:
     def async_handle_stdoe
       Thread.new do
         begin
