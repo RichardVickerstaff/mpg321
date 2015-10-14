@@ -25,6 +25,59 @@ describe Mpg321::ProcessWrapper do
     end
   end
 
+  describe '(error handling)' do
+    context 'when a file can not be found' do
+      let(:mpg321_error_msg) { "foobar: #{Mpg321::ProcessWrapper::LOCALIZED_ENOENT_MESSAGE}" }
+
+      it 'notifies interested observers' do
+        callback = Proc.new {}
+        subject.on :file_not_found, &callback
+        expect(callback).to receive :call
+
+        fake_mpg321.send_mpg321_output mpg321_error_msg
+        subject.fake_read_thread.run_once
+      end
+
+      it 'respawns the dead mpg321 process' do
+        expect(fake_mpg321.wait_thr).to receive(:join)
+        expect(subject).to receive(:spawn_mpg321).and_return(fake_mpg321)
+
+        fake_mpg321.send_mpg321_output mpg321_error_msg
+        subject.fake_read_thread.run_once
+      end
+    end
+
+    context 'in case of a syntax error in a command' do
+      let(:mpg321_error_msg) { "@E Missing argument to 'L'" }
+
+      it 'notifies interested observers' do
+        callback = Proc.new {}
+        subject.on :error, &callback
+        expect(callback).to receive(:call).with(mpg321_error_msg)
+
+        fake_mpg321.send_mpg321_output mpg321_error_msg
+        subject.fake_read_thread.run_once
+      end
+    end
+
+    context 'in any other error case (e.g., no sound card found)' do
+      let(:mpg321_error_msg) { 'big boom' }
+
+      it 'notifies interested observers' do
+        callback = Proc.new {}
+        subject.on :error, &callback
+        expect(callback).to receive(:call).with(mpg321_error_msg)
+
+        fake_mpg321.send_mpg321_output mpg321_error_msg
+        subject.fake_read_thread.run_once
+      end
+
+      # TODO: ProcessWrapper should probably remember that mpg321 is dead
+      # and return some sane error message afterwards.
+      it 'puts itself into a sane state'
+    end
+  end
+
   describe '(read thread)' do
     it 'dies when mpg321 exits' do
       # When mpg321 dies, the stdout pipe will go away, resulting

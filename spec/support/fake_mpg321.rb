@@ -28,8 +28,6 @@ class FakeMpg321
     send_mpg321_output '@P 3'
   end
 
-  private
-
   def send_mpg321_output(line)
     @stdoe.rewind
     @stdoe.flush
@@ -37,8 +35,13 @@ class FakeMpg321
     @stdoe.rewind
   end
 
+  private
+
   class FakeWaitThread
     FakeExitStatus = Struct.new(:exitstatus)
+
+    def join
+    end
 
     def value
       FakeExitStatus.new(0)
