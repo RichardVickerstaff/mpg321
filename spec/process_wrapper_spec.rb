@@ -29,14 +29,12 @@ describe Mpg321::ProcessWrapper do
 
   describe '(error handling)' do
     context 'when a file can not be found' do
-      let(:mpg321_error_msg) { "foobar: #{Mpg321::ProcessWrapper::LOCALIZED_ENOENT_MESSAGE}" }
-
       it 'notifies interested observers' do
         callback = Proc.new {}
         subject.on :file_not_found, &callback
         expect(callback).to receive :call
 
-        fake_mpg321.send_mpg321_output mpg321_error_msg
+        fake_mpg321.send_file_not_found
         fake_read_thread.run_once
       end
 
@@ -44,33 +42,29 @@ describe Mpg321::ProcessWrapper do
         expect(fake_mpg321.wait_thr).to receive(:join)
         expect(subject).to receive(:spawn_mpg321).and_return(fake_mpg321)
 
-        fake_mpg321.send_mpg321_output mpg321_error_msg
+        fake_mpg321.send_file_not_found
         fake_read_thread.run_once
       end
     end
 
     context 'in case of a syntax error in a command' do
-      let(:mpg321_error_msg) { "@E Missing argument to 'L'" }
-
       it 'notifies interested observers' do
         callback = Proc.new {}
         subject.on :error, &callback
-        expect(callback).to receive(:call).with(mpg321_error_msg)
+        expect(callback).to receive(:call)
 
-        fake_mpg321.send_mpg321_output mpg321_error_msg
+        fake_mpg321.send_command_syntax_error
         fake_read_thread.run_once
       end
     end
 
     context 'in any other error case (e.g., no sound card found)' do
-      let(:mpg321_error_msg) { 'big boom' }
-
       it 'notifies interested observers' do
         callback = Proc.new {}
         subject.on :error, &callback
-        expect(callback).to receive(:call).with(mpg321_error_msg)
+        expect(callback).to receive(:call)
 
-        fake_mpg321.send_mpg321_output mpg321_error_msg
+        fake_mpg321.send_fatal_unknown_error
         fake_read_thread.run_once
       end
 

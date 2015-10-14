@@ -55,6 +55,18 @@ class FakeMpg321
     send_mpg321_output '@P 3'
   end
 
+  def send_command_syntax_error
+    send_mpg321_output "@E Missing argument to 'L'"
+  end
+
+  def send_file_not_found
+    send_mpg321_output "foobar: #{Mpg321::ProcessWrapper::LOCALIZED_ENOENT_MESSAGE}"
+  end
+
+  def send_fatal_unknown_error
+    send_mpg321_output 'big boom'
+  end
+
   def send_mpg321_output(line)
     @stdoe.rewind
     @stdoe.flush
