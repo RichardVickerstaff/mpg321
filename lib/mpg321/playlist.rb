@@ -2,7 +2,7 @@ module Mpg321
   class Playlist
     include Enumerable
 
-    PLAYLIST_ADVANCE_EVENTS = %i{ playback_finished file_not_found }
+    PLAYLIST_ADVANCE_EVENTS = [ :playback_finished, :file_not_found ]
 
     def initialize autoplay: false, client: Client.new
       @tracks   = Array.new
