@@ -1,6 +1,8 @@
 require 'stringio'
 
 class FakeMpg321
+  attr_reader :stdin, :stdoe, :wait_thr
+
   def initialize
     @stdin    = StringIO.new
     @stdoe    = StringIO.new
@@ -28,5 +30,10 @@ class FakeMpg321
   private
 
   class FakeWaitThread
+    FakeExitStatus = Struct.new(:exitstatus)
+
+    def value
+      FakeExitStatus.new(0)
+    end
   end
 end

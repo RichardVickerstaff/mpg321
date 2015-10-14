@@ -17,6 +17,12 @@ module Mpg321
       @callbacks[event] << block
     end
 
+    def quit
+      send_command 'Q'
+      @read_thr.join
+      @wait_thr.value
+    end
+
     private
 
     def emit(event, *args)
@@ -24,7 +30,13 @@ module Mpg321
     end
 
     def async_handle_stdoe
-      Thread.new { loop { read_stdoe_line } }
+      Thread.new do
+        begin
+          loop { read_stdoe_line }
+        rescue EOFError
+          # Stream exhausted, ignore.
+        end
+      end
     end
 
     def read_stdoe_line

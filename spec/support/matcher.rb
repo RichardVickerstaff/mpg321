@@ -20,6 +20,16 @@ RSpec::Matchers.define :be_a_stop_command do
   end
 end
 
+RSpec::Matchers.define :be_a_quit_command do
+  match do |actual|
+    actual[0] == 'Q'
+  end
+
+  failure_message do |actual|
+    "expected that #{actual} would be a mpg321 quit command ('Q'/'QUIT')"
+  end
+end
+
 RSpec::Matchers.define :set_volume_to do |vol|
   match do |actual|
     actual == "G #{vol}"
