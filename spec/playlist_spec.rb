@@ -24,7 +24,7 @@ describe Mpg321::Playlist do
 
     context 'when the autoplay flag is set' do
       let(:client2) { Mpg321::Client.new }
-      subject { Mpg321::Playlist.new client: client2, autoplay: true }
+      subject { Mpg321::Playlist.new(true, client2) }
 
       context 'and the player has not loaded a file' do
         it 'automatically starts playback' do

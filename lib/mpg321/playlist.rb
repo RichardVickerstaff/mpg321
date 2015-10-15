@@ -4,7 +4,7 @@ module Mpg321
 
     PLAYLIST_ADVANCE_EVENTS = [ :playback_finished, :file_not_found ]
 
-    def initialize autoplay: false, client: Client.new
+    def initialize autoplay = false, client = Client.new
       @tracks   = Array.new
       @access   = Mutex.new
       @autoplay = autoplay
