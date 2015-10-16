@@ -1,9 +1,10 @@
-require 'bundler/setup'
 require 'simplecov'
+SimpleCov.add_filter '/spec/'
 SimpleCov.start
 
+require 'mpg321'
 
-Dir['./spec/support/*.rb'].map {|f| require f }
+Dir['./spec/support/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
   config.filter_run :focus => true
