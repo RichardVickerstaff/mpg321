@@ -1,3 +1,10 @@
+== v1.0.0 (20 October 2015)
+
+* Add better namspacing for the gem
+* Add callback for 'file_not_found'
+* Add callback for 'playback_finished'
+* Add callback for 'error'
+
 == v0.4.0 (04 July 2015)
 
 * Add paused? mehod
